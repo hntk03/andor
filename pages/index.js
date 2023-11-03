@@ -5,15 +5,30 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { useState } from 'react';
 
 export default function Home() {
+	const conditionNumMax = 5
+	const conditionNumMin = 2
 	const [value, setValue] = useState('1')
 	const [condition1, setCondition1] = useState('')
 	const [condition2, setCondition2] = useState('')
+	const [conditions, setConditions] = useState(Array(conditionNumMax).fill(''))
 	const [text, setText] = useState()
-	const [conditionNum, setConditionNum] = useState(2)
+	const [conditionNum, setConditionNum] = useState(conditionNumMin)
 
 const onChangeCondition1 = (e) => {
+	console.log(e)
 	setCondition1(e.target.value)
 	generate(value)
+}
+
+const onChangeCondition = (e) => {
+	const data = conditions.slice()
+	const index = Number(e.target.id) - 1
+	const input = e.target.value
+
+	data[index] = input
+
+	setConditions(data)
+	generate(value, data)
 }
 
 const onChangeCondition2 = (e) => {
@@ -22,12 +37,21 @@ const onChangeCondition2 = (e) => {
 }
 
 const onChangeType = (e) => {
-	console.log(e)
 	setValue(e)
-	generate(e)
+	generate(e, conditions)
 }
 
-const generate = (value) =>{
+const onClickAdd = () => {
+	const num = Math.min(conditionNum+1, conditionNumMax)
+	setConditionNum(num)
+}
+
+const onClickDelete = () => {
+	const num = Math.max(conditionNum-1, conditionNumMin)
+	setConditionNum(num)
+}
+
+const generate = (value, conditions) =>{
 	let type = ""
 	if(value == 1){
 		type = "AND"
@@ -36,14 +60,44 @@ const generate = (value) =>{
 		type = "OR";
 	}
 
-	const first = type + " ┬ " + condition1
-	const end = makeSpace(type) + " └ " + condition2
-	const content = [first, end].join("\n")
-	setText(content)
+	const spaces = makeSpace(type)
+
+	const list = []
+	const first = type + " ┬ " + conditions[0]
+	const end = spaces + " └ " + conditions[conditionNum-1]
+
+	for(let i=1;i<conditionNum-1;i++){
+		const item = spaces + "  ├ " + conditions[i]
+		list.push(item)
+	}
+
+	list.unshift(first)
+  list.push(end)
+
+
+	setText(list.join('\n'))
+	// const first = type + " ┬ " + condition1
+	// const end = makeSpace(type) + " └ " + condition2
+	// const content = [first, end].join("\n")
+	// setText(content)
 }
 
 const makeSpace = (type) => {
 	return Array(type.length+4).fill(" ").join("")
+}
+
+const hoge = () => {
+	const list = []
+	for(let i=0; i<conditionNum; i++){
+		const placeholder = '条件' + (i+1)
+		list.push(<Input key={i+1} id={i+1} placeholder={placeholder} size='md' onChange={onChangeCondition} value={conditions[i]} />)
+	}
+	return list
+}
+
+const tmp = () => {
+	// <Input placeholder='条件1' size='md' onChange={onChangeCondition1} value={condition1} />
+	// <Input placeholder='条件2' size='md' onChange={onChangeCondition2} value={condition2} />
 }
 
   return (
@@ -64,11 +118,15 @@ const makeSpace = (type) => {
 			</RadioGroup>
 
 			<Stack spacing={3}>
-				<Input placeholder='条件1' size='md' onChange={onChangeCondition1} value={condition1} />
-				<Input placeholder='条件2' size='md' onChange={onChangeCondition2} value={condition2} />
+				{hoge()}
 			</Stack>
 
-			<Textarea placeholder='' value={text} isReadOnly={true} size="lg" />
+			<Stack direction='row'>
+				<Button onClick={onClickAdd}>追加</Button>
+				<Button onClick={onClickDelete}>削除</Button>
+			</Stack>
+
+			<Textarea h='calc(30vh)' placeholder='' value={text} isReadOnly={true} size="lg" />
 
       </main>
 			</Container>
