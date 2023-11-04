@@ -1,8 +1,8 @@
 {
   "redirects": [
     {
-      "source": "https://andor-hntk03s-projects.vercel.app/",
-      "destination": "https://andor.hntk03.com/"
+      "source": "https://andor-hntk03s-projects.vercel.app/:slug",
+      "destination": "https://andor.hntk03.com/:slug"
     }
   ]
 }
