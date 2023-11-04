@@ -1,4 +1,6 @@
-import Head from 'next/head';
+import MyHead from '../components/myhead';
+import Header from '../components/header';
+import Footer from '../components/footer';
 import styles from '../styles/Home.module.css';
 import { Container, RadioGroup, Stack, Radio, Input, Button, CloseButton, Textarea } from '@chakra-ui/react';
 import { ChakraProvider } from '@chakra-ui/react';
@@ -100,12 +102,11 @@ const DisplayConditions = () => {
 		<ChakraProvider>
     <div>
 			<Container>
-      <Head>
-        <title>AND OR Format</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+
+			<MyHead />
 
       <main>
+			<Header />
 			<RadioGroup onChange={onChangeType} value={value}>
 				<Stack direction='row'>
 					<Radio value='1'>AND</Radio>
@@ -123,6 +124,7 @@ const DisplayConditions = () => {
 
 			<Textarea h='calc(30vh)' placeholder='' value={text} isReadOnly={true} size="lg" />
 
+			<Footer />
       </main>
 			</Container>
 		</div>
