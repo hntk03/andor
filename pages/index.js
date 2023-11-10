@@ -11,7 +11,7 @@ export default function Home() {
 	const conditionNumMin = 2
 	const conditionNumMax = 5
 	const [conditions, setConditions] = useState(Array(conditionNumMin).fill(''))
-	const [text, setText] = useState()
+	const [text, setText] = useState('')
 
 const onChangeCondition = (e) => {
 	const data = conditions.slice()
@@ -118,11 +118,9 @@ const DisplayConditions = () => {
 				{DisplayConditions()}
 			</Stack>
 
-			<Stack direction='row'>
-				<Button onClick={onClickAdd}>追加</Button>
-			</Stack>
+		{ conditions.length != conditionNumMax && <Button mt={3} onClick={onClickAdd}>追加</Button>}
 
-			<Textarea h='calc(30vh)' placeholder='' value={text} isReadOnly={true} size="lg" />
+			<Textarea mt={3} h='calc(30vh)' placeholder='' value={text} isReadOnly={true} size="lg" />
 
 			<Footer />
       </main>
