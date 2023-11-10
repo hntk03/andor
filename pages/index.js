@@ -54,7 +54,7 @@ const onClickCloseButton = (e) => {
 
 const generate = (value, conditions) =>{
 	let t = ""
-	if(type == 1){
+	if(value == 1){
 		t = "AND"
 	} 
 	else{
