@@ -82,21 +82,25 @@ const makeSpace = (type) => {
 	return Array(type.length+4).fill(" ").join("")
 }
 
-const DisplayConditions = () => {
+const TextBox = () => {
 	const list = []
 	for(let i=0; i<conditions.length; i++){
-		const placeholder = '条件' + (i+1)
-		const row = []
-		row.push(<Stack key={`stack_${i+1}`} direction='row'>)
-		row.push(<Input key={`input_${i+1}`} id={i+1} placeholder={placeholder} size='md' onChange={onChangeCondition} value={conditions[i]} />)
-		row.push(<CloseButton key={`closeButton_${i+1}`} id={i+1} onClick={onClickCloseButton} />)
-		row.push(</Stack>)
-		list.push(row)
-
+		list.push(Row(i))
 	}
 
 	return list
 }
+
+const Row = (i) => {
+	const placeholder = '条件' + (i+1)
+	return (
+		<Stack key={`stack_${i+1}`} direction='row'>
+		<Input key={`input_${i+1}`} id={i+1} placeholder={placeholder} size='md' onChange={onChangeCondition} value={conditions[i]} />
+		{conditions.length != 2 && <CloseButton key={`closeButton_${i+1}`} id={i+1} onClick={onClickCloseButton} />}
+		</Stack>
+	)
+}
+
 
   return (
 		<ChakraProvider>
@@ -115,7 +119,7 @@ const DisplayConditions = () => {
 			</RadioGroup>
 
 			<Stack spacing={3}>
-				{DisplayConditions()}
+				{TextBox()}
 			</Stack>
 
 		{ conditions.length != conditionNumMax && <Button mt={3} onClick={onClickAdd}>追加</Button>}
