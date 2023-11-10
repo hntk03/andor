@@ -11,8 +11,7 @@ export default function Home() {
 	const conditionNumMin = 2
 	const conditionNumMax = 5
 	const [conditions, setConditions] = useState(Array(conditionNumMin).fill(''))
-	const [text, setText] = useState('')
- const { onCopy, value, setValue, hasCopied } = useClipboard('');
+	const { onCopy, value, setValue, hasCopied } = useClipboard('');
 
 const onChangeCondition = (e) => {
 	const data = conditions.slice()
@@ -22,7 +21,7 @@ const onChangeCondition = (e) => {
 	data[index] = input
 
 	setConditions(data)
-	generate(value, data)
+	generate(type, data)
 }
 
 const onChangeType = (e) => {
@@ -77,7 +76,7 @@ const generate = (value, conditions) =>{
 	list.unshift(first)
   list.push(end)
 
-	setText(list.join('\n'))
+	setValue(list.join('\n'))
 }
 
 const makeSpace = (type) => {
@@ -126,7 +125,7 @@ const Row = (i) => {
 
 		{ conditions.length != conditionNumMax && <Button mt={3} onClick={onClickAdd}>追加</Button>}
 
-			<Textarea mt={1} h='calc(30vh)' placeholder='' value={text} isReadOnly={true} size="lg" />
+			<Textarea mt={1} h='calc(30vh)' placeholder='' value={value} isReadOnly={true} size="lg" />
 			<Button onClick={onCopy} mt={1}>{ hasCopied ? "Copied!":"Copy"}</Button>
 
 			<Footer />
