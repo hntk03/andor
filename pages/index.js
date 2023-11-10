@@ -126,8 +126,8 @@ const Row = (i) => {
 
 		{ conditions.length != conditionNumMax && <Button mt={3} onClick={onClickAdd}>追加</Button>}
 
-			<Textarea mt={3} h='calc(30vh)' placeholder='' value={text} isReadOnly={true} size="lg" />
-			<Button onClick={onCopy}>{ hasCopied ? "Copied!":"Copy"}</Button>
+			<Textarea mt={1} h='calc(30vh)' placeholder='' value={text} isReadOnly={true} size="lg" />
+			<Button onClick={onCopy} mt={1}>{ hasCopied ? "Copied!":"Copy"}</Button>
 
 			<Footer />
       </main>
