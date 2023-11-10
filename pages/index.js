@@ -2,16 +2,17 @@ import MyHead from '../components/myhead';
 import Header from '../components/header';
 import Footer from '../components/footer';
 import styles from '../styles/Home.module.css';
-import { Container, RadioGroup, Stack, Radio, Input, Button, CloseButton, Textarea } from '@chakra-ui/react';
+import { Container, RadioGroup, Stack, Radio, Input, Button, CloseButton, Textarea, useClipboard } from '@chakra-ui/react';
 import { ChakraProvider } from '@chakra-ui/react';
 import { useState } from 'react';
 
 export default function Home() {
-	const [value, setValue] = useState('1')
+	const [type, setType] = useState('1')
 	const conditionNumMin = 2
 	const conditionNumMax = 5
 	const [conditions, setConditions] = useState(Array(conditionNumMin).fill(''))
 	const [text, setText] = useState('')
+ const { onCopy, value, setValue, hasCopied } = useClipboard('');
 
 const onChangeCondition = (e) => {
 	const data = conditions.slice()
@@ -25,7 +26,7 @@ const onChangeCondition = (e) => {
 }
 
 const onChangeType = (e) => {
-	setValue(e)
+	setType(e)
 	generate(e, conditions)
 }
 
@@ -53,18 +54,18 @@ const onClickCloseButton = (e) => {
 }
 
 const generate = (value, conditions) =>{
-	let type = ""
-	if(value == 1){
-		type = "AND"
+	let t = ""
+	if(type == 1){
+		t = "AND"
 	} 
 	else{
-		type = "OR";
+		t = "OR";
 	}
 
-	const spaces = makeSpace(type)
+	const spaces = makeSpace(t)
 
 	const list = []
-	const first = `${type} ┬ ${conditions[0]}`
+	const first = `${t} ┬ ${conditions[0]}`
 	const end = `${spaces} └  ${conditions[conditions.length-1]}`
 
 	for(let i=1;i<conditions.length-1;i++){
@@ -112,7 +113,7 @@ const Row = (i) => {
 
       <main>
 			<Header />
-			<RadioGroup onChange={onChangeType} value={value}>
+			<RadioGroup onChange={onChangeType} value={type}>
 				<Stack direction='row'>
 					<Radio value='1'>AND</Radio>
 					<Radio value='2'>OR</Radio>
@@ -126,6 +127,7 @@ const Row = (i) => {
 		{ conditions.length != conditionNumMax && <Button mt={3} onClick={onClickAdd}>追加</Button>}
 
 			<Textarea mt={3} h='calc(30vh)' placeholder='' value={text} isReadOnly={true} size="lg" />
+			<Button onClick={onCopy}>{ hasCopied ? "Copied!":"Copy"}</Button>
 
 			<Footer />
       </main>
