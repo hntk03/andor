@@ -72,6 +72,7 @@ const generate = (value, conditions) =>{
 		list.push(item)
 	}
 
+	{/* 先頭と末尾に追加 */}
 	list.unshift(first)
   list.push(end)
 
@@ -95,7 +96,7 @@ const Row = (i) => {
 	const placeholder = '条件' + (i+1)
 	return (
 		<Stack key={`stack_${i+1}`} direction='row'>
-		<Input key={`input_${i+1}`} id={i+1} placeholder={placeholder} size='md' onChange={onChangeCondition} value={conditions[i]} />
+		<Input key={`input_${i+1}`} id={i+1} width='480px' placeholder={placeholder} size='md' onChange={onChangeCondition} value={conditions[i]} />
 		{conditions.length != 2 && <CloseButton key={`closeButton_${i+1}`} id={i+1} onClick={onClickCloseButton} />}
 		</Stack>
 	)
